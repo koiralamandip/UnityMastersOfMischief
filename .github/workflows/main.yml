@@ -9,13 +9,12 @@ jobs:
   buildForAllSupportedPlatforms:
     name: Build for ${{ matrix.targetPlatform }}
     if: github.ref == 'refs/heads/main'
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     strategy:
       fail-fast: false
       matrix:
         targetPlatform:
-          - StandaloneOSXArm64 # Build a macOS standalone (Apple silicon).
-          - StandaloneWindows64 # Build a Windows 64-bit standalone.
+          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
     steps:
       - uses: actions/checkout@v4
         with:
