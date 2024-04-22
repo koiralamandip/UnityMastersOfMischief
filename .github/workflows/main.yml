@@ -14,8 +14,7 @@ jobs:
       fail-fast: false
       matrix:
         targetPlatform:
-          - StandaloneOSX # Build a macOS standalone (Intel 64-bit).
-          - StandaloneWindows # Build a Windows standalone.
+          - StandaloneOSXArm64 # Build a macOS standalone (Apple silicon).
           - StandaloneWindows64 # Build a Windows 64-bit standalone.
     steps:
       - uses: actions/checkout@v4
