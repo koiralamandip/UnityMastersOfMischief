@@ -18,19 +18,11 @@ public class Luncher : MonoBehaviourPunCallbacks
     }
 
     // Update is called once per frame
+    // This is a test comment
     public override void OnConnectedToMaster()
     {
         Debug.Log("connected to master");
-
-
         PhotonNetwork.JoinRandomOrCreateRoom();
-
-
-
-
-
-
-
 
     }
 
