@@ -17,14 +17,16 @@ namespace FIMSpace
 {
     public class LeaningAnimator_Demo_Movement : MonoBehaviour
     {
-
+        [Header("Abbility")]
         public bool canRagdoll;
         public bool canPunch;
+
         [Header("Movment")]
+        [SerializeField] private Transform oriantation;
         Vector3 directions;
      
-        [SerializeField] private Transform oriantation;
-        [SerializeField] private LeaningAnimator ManualInformLeaning;
+      
+        
         [SerializeField] private BonesStimulator spineBoneStimulator;
         [SerializeField] private float RotationSpeed = 8f;
         [SerializeField] private float groundDrag;
@@ -44,7 +46,7 @@ namespace FIMSpace
         Rigidbody moveableRIGI;
        
 
-        [Header("slop")]
+        [Header("Slop")]
         [SerializeField] private float RayRange;
         [SerializeField] private float angle;
         [SerializeField] private float maxSlopeAngle;
@@ -76,18 +78,18 @@ namespace FIMSpace
          private float jumpBufferCounter;
          [SerializeField] private bool isJumping;
         /////////////////////////////////
-        [Header("animator")]
+        [Header("Animator")]
         float moveAmount;
         [SerializeField] private float animeSpeedMultipler;
-        [SerializeField] private Animator anime;
-        [SerializeField] private Transform TPose;
-        LookAtIK lookik;
+         private Animator Anime;
+       
+        [SerializeField] private LookAtIK LookIK;
        
        
 
 
 
-        [Header("pick up objects")]
+        [Header("Pick Up Objects")]
         [SerializeField] private Rigidbody BoxPrefab;
         [SerializeField] private Rigidbody BallPrefab;
         [SerializeField] private bool FoundPickup ;
@@ -96,19 +98,21 @@ namespace FIMSpace
         FullBodyBipedIK fullbodyik;
         [SerializeField] private Transform arcLuncher;
         private ProjectileLauncher arcLuncherCode;
-        [SerializeField] private CapsuleCollider capsulColoder;
-        [Header("ragdoll")]
+          private CapsuleCollider capsulCollider;
+        [Header("Ragdoll")]
        public bool activeRagdoll;
         [SerializeField] private PuppetMaster puppetMaster;
         [SerializeField] private Transform EntireCharacterCntroller;
         [SerializeField] private Transform hips;
 
-        [Header("combat and wapeon")]
+        [Header("Combat And Weapons")]
         [SerializeField] private BonesStimulator rightHandBone;
 
         void Start()
         {
+            capsulCollider= this.GetComponent<CapsuleCollider>();
 
+            Anime = this.GetComponent<Animator>();
 
             arcLuncherCode = arcLuncher.GetComponent<ProjectileLauncher>();
             arcLuncher.gameObject.SetActive(false);
@@ -117,7 +121,7 @@ namespace FIMSpace
            
             targetRot = transform.rotation.eulerAngles;
 
-            lookik = TPose.GetComponent<LookAtIK>();
+            
             
 
             ////////////////////////////////////
@@ -230,7 +234,7 @@ namespace FIMSpace
             {
                 
                 rigbody.AddForce(directions.normalized * sprinting * 10, ForceMode.Force);
-                anime.SetFloat("speed", 2);
+                Anime.SetFloat("speed", 2);
                 RotationSpeed = 14;
             }
             else
@@ -239,9 +243,9 @@ namespace FIMSpace
             }
 
             /////////////////////////////////////////////////////////////////////////////////////////////////
-            anime.SetBool("isgrounded", isGrounded);
+            Anime.SetBool("isgrounded", isGrounded);
 
-            anime.SetBool("isjumping", isJumping);
+            Anime.SetBool("isjumping", isJumping);
             if (isJumping)
             {
                 
@@ -253,7 +257,7 @@ namespace FIMSpace
                 valu = 0;
                  
             }
-            anime.SetFloat("jumpVAL", valu);
+            Anime.SetFloat("jumpVAL", valu);
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //Vector3 movement = new Vector3(-Input.GetAxisRaw("Horizontal"), 0.0f, -Input.GetAxisRaw("Vertical"));
 
@@ -473,19 +477,19 @@ namespace FIMSpace
             }
             moveAmount = Mathf.Clamp(moveAmount, 0, 1);
             if (!Input.GetKey(KeyCode.LeftShift)){
-                anime.SetFloat("speed", moveAmount);
+                Anime.SetFloat("speed", moveAmount);
 
             }
 
 
             if (Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0)
             {
-                lookik.solver.bodyWeight = 0;
+                LookIK.solver.bodyWeight = 0;
 
             }
             else
             {
-                lookik.solver.bodyWeight = 1;
+                LookIK.solver.bodyWeight = 1;
             }
 
 
@@ -653,7 +657,7 @@ namespace FIMSpace
 
             ////////////////////////////////////// punching
 
-            if (Input.GetKeyDown(KeyCode.Mouse0) && !FoundPickup && anime.GetBool("isPunching") == false && canPunch)
+            if (Input.GetKeyDown(KeyCode.Mouse0) && !FoundPickup && Anime.GetBool("isPunching") == false && canPunch)
             {
 
                 StartCoroutine(resetPunch());
@@ -679,8 +683,8 @@ namespace FIMSpace
             }
             if (FoundPickup == false  )
             {
-                capsulColoder.center = new Vector3(0.01624298f, 1.00417f, -0.0005250571f);
-                capsulColoder.radius = 0.5770756f;
+                capsulCollider.center = new Vector3(0.01624298f, 1.00417f, -0.0005250571f);
+                capsulCollider.radius = 0.5770756f;
                 pickableObject.GetComponent<Collider>().enabled = true;
                 
                 Invoke("dropBox", 0.1f);
@@ -711,8 +715,8 @@ namespace FIMSpace
 
                 if (FoundPickup)
             {
-                capsulColoder.center = new Vector3(0.01624f , 1.00417f, 0.3158f);
-                capsulColoder.radius = 0.8934f;
+                capsulCollider.center = new Vector3(0.01624f , 1.00417f, 0.3158f);
+                capsulCollider.radius = 0.8934f;
                 pickableObject.GetComponent<Collider>().enabled = false;
                 transform.GetComponent<CapsuleCollider>().enabled = false;
                 pickableObject.transform.rotation = Quaternion.identity;
@@ -850,8 +854,8 @@ namespace FIMSpace
             FoundPickup = false;
             pickableObject = null;
 
-            capsulColoder.center = new Vector3(0.01624298f, 1.00417f, -0.0005250571f);
-            capsulColoder.radius = 0.5770756f;
+            capsulCollider.center = new Vector3(0.01624298f, 1.00417f, -0.0005250571f);
+            capsulCollider.radius = 0.5770756f;
              
                 fullbodyik.solver.IKPositionWeight = 0;
              
@@ -961,15 +965,15 @@ namespace FIMSpace
 
         IEnumerator resetPunch()
         {
-            
-            anime.SetLayerWeight(1, 1);
-            anime.SetBool("isPunching", true);
+
+            Anime.SetLayerWeight(1, 1);
+            Anime.SetBool("isPunching", true);
             rightHandBone.enabled = false;
 
             yield return new WaitForSeconds(.6f);
 
-            anime.SetLayerWeight(1, 0);
-            anime.SetBool("isPunching", false);
+            Anime.SetLayerWeight(1, 0);
+            Anime.SetBool("isPunching", false);
             rightHandBone.enabled = true;
         }
 
