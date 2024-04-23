@@ -13,10 +13,6 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private Transform objectForLookIK;
     [SerializeField] private float offsetLookik = 8.4f;
 
-
-
-
-
     [Header("camera look")]
     [SerializeField] private float minimumX = -20f;
     [SerializeField] private float maximumX = 20f;
