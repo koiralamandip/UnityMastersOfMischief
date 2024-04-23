@@ -26,7 +26,6 @@ public class mover : MonoBehaviour
     {
         //////////////////////////////////////////////////////////////////////////////////////////////////////////////
         //Vector3 movement = new Vector3(-Input.GetAxisRaw("Horizontal"), 0.0f, -Input.GetAxisRaw("Vertical"));
-
         //transform.Translate(movement * speed * Time.deltaTime, Space.World);
 
 
