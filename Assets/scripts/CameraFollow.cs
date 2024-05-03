@@ -34,7 +34,37 @@ public class CameraFollow : MonoBehaviour
     [SerializeField] private float PanSpeed;
 
 
-     
+
+
+
+
+    [Header("camera shake")]
+    public Transform camTransform;
+
+    // How long the object should shake for.
+   public float shakeDuration = 0f;
+    float shakeduration = 0f;
+
+    // Amplitude of the shake. A larger value shakes the camera harder.
+    public float shakeAmount = 0.7f;
+    public float decreaseFactor = 1.0f;
+
+    public bool shaketrue = false;
+
+    Vector3 originalPos;
+
+    void Awake()
+    {
+        if (camTransform == null)
+        {
+            camTransform = GetComponent(typeof(Transform)) as Transform;
+        }
+    }
+
+    void OnEnable()
+    {
+        
+    }
     void FixedUpdate()
     {
        if(isZooming == false && isPaning==false)
@@ -66,11 +96,30 @@ public class CameraFollow : MonoBehaviour
     {
         
     }
+    public void shakecamera()
+    {
+        shaketrue = true;
+    }
 
-     
     void Update()
     {
+        ///////////////////////// camera shake 
+        if (shaketrue)
+        {
+            if (shakeduration > 0)
+            {
+                camTransform.localPosition = originalPos + Random.insideUnitSphere * shakeAmount;
 
+                shakeduration -= Time.deltaTime * decreaseFactor;
+            }
+            else
+            {
+                shakeduration = shakeDuration;
+                camTransform.localPosition = originalPos;
+                shaketrue = false;
+            }
+        }
+        originalPos = camTransform.localPosition;
 
         ///////////////////////// zoom and pan
 

@@ -6,16 +6,16 @@ namespace Blobcreate.ProjectileToolkit.Demo
 {
 	public class SimpleExplosive : ProjectileBehaviour
 	{
-		public float radius = 4f;
-		public float centerForce = 10f;
-		public float forceUplit;
-		public LayerMask scanMask;
-		public int damage = 100;
-		public bool isPlayerWeapon;
-		public LayerMask selfMask;
-		public float selfDamageRatio = 0.25f;
+		[SerializeField] public float radius = 4f;
+		[SerializeField] public float centerForce = 10f;
+		[SerializeField] public float forceUplit;
+		[SerializeField] public LayerMask scanMask;
+		[SerializeField] public int damage = 100;
+		[SerializeField] public bool isPlayerWeapon;
+		[SerializeField] public LayerMask selfMask;
+		[SerializeField] public float selfDamageRatio = 0.25f;
 
-		Collider[] result = new Collider[16];
+		[SerializeField] Collider[] result = new Collider[16];
 
 		[SerializeField] private float maxFallingVelocity;
 
