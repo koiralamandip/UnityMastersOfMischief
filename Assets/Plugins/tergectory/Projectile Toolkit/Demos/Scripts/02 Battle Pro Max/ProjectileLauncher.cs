@@ -1,13 +1,15 @@
-﻿using Blobcreate.Universal;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-
+using Blobcreate.ProjectileToolkit.Demo;
+using Blobcreate.Universal;
 namespace Blobcreate.ProjectileToolkit.Demo
 {
 	public class ProjectileLauncher : MonoBehaviour
 	{
 		public Transform launchPoint;
 		public Transform EndPoint;
-		public Rigidbody bulletPrefab;
+		public Rigidbody  Prefab;
 		public LayerMask groundMask;
 		public float torqueForce = 5f;
 		public float smallA = -0.1f;
@@ -21,9 +23,7 @@ namespace Blobcreate.ProjectileToolkit.Demo
 		float currentA;
 		float currentTorque;
 		bool isReloading;
-		float reloadTimer;
-		[SerializeField] private Transform netCollider;
-		 
+		float reloadTimer; 
 		 
 
 	void Start()
@@ -82,17 +82,12 @@ namespace Blobcreate.ProjectileToolkit.Demo
 
 		public void Fire(Vector3 target)
 		{
-			  b = Instantiate(bulletPrefab, launchPoint.position, launchPoint.rotation);
+			  b = Instantiate( Prefab, launchPoint.position, launchPoint.rotation);
 			b.GetComponent<ProjectileBehaviour>().Launch(target);
 			//Physics.IgnoreCollision(b.GetComponent<Collider>(), player.GetComponent<Collider>());
 			b.gameObject.layer = LayerMask.NameToLayer("puppet");
 			Invoke("changeLayers", .8f);
-			if (bulletPrefab.gameObject.tag == "ball" )
-			{
-				b.GetComponent<SimpleExplosive>().netCollider = netCollider ;
-				b.GetComponent<SimpleExplosive>().followBall = true;
-			}
-             
+			
 
 			// Magic happens!
 			var f = Projectile.VelocityByA(b.position, target, currentA);
@@ -102,7 +97,11 @@ namespace Blobcreate.ProjectileToolkit.Demo
 			var t = Vector3.Lerp(torqueForce * Random.onUnitSphere,
 				torqueForce * (target - launchPoint.position).normalized, currentTorque);
 			b.AddTorque(t, ForceMode.VelocityChange);
+			if ( Prefab.gameObject.tag == "ball")
+			{
+				b.gameObject.layer = LayerMask.NameToLayer("Default");
 
+			}
 		}
 
 		void OnFireButtonDown()
@@ -131,7 +130,13 @@ namespace Blobcreate.ProjectileToolkit.Demo
 
 		void changeLayers()
         {
-			b.gameObject.layer = LayerMask.NameToLayer("Default");
+
+			
+			
+             
+				b.gameObject.layer = LayerMask.NameToLayer("Default");
+			 
+
 		}
 	}
 	

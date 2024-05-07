@@ -799,8 +799,7 @@ namespace FIMSpace
             if (other.gameObject.tag == "BOX")
             {
                 pickableObject = other.gameObject.transform;
-
-                arcLuncherCode.bulletPrefab = BoxPrefab;
+ 
             }
 
 
@@ -808,7 +807,7 @@ namespace FIMSpace
             {
                 pickableObject = other.gameObject.transform;
 
-                arcLuncherCode.bulletPrefab = BallPrefab;
+                
             }
         }
         void OnTriggerExit(Collider other)
@@ -816,8 +815,7 @@ namespace FIMSpace
             if (other.gameObject.tag == "BOX")
             {
                 pickableObject = null;
-
-                arcLuncherCode.bulletPrefab = null;
+                 
             }
 
 
@@ -825,7 +823,7 @@ namespace FIMSpace
             {
                 pickableObject = null;
 
-                arcLuncherCode.bulletPrefab = null;
+                 
             }
         }
 
