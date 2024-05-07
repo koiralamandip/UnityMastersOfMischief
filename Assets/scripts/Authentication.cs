@@ -4,6 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.Networking;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Authentication : MonoBehaviour
 {
@@ -70,7 +71,7 @@ public class Authentication : MonoBehaviour
     public void Logout()
     {
         PlayerPrefs.DeleteKey("linked_account");
-
+        LobbyManager.Disconnect();
         CheckAndApplyForLinkedAccount();
     }
 
@@ -101,5 +102,11 @@ public class Authentication : MonoBehaviour
         regBtnText.text = "Register";
         reg_username.text = "";
         reg_password.text = "";
+    }
+
+    public void MainBoard()
+    {
+        if (PlayerPrefs.HasKey("linked_account"))
+            SceneManager.LoadScene("Start");
     }
 }
