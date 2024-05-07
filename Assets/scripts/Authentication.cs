@@ -14,7 +14,7 @@ public class Authentication : MonoBehaviour
     public TMP_Text linkedText;
     TMP_Text logBtnText, regBtnText;
 
-    // Start is called before the first frame update 
+    // Start is called before the first frame update
     void Start()
     {
         logBtnText = logButton.gameObject.GetComponentInChildren<TMP_Text>();
